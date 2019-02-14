@@ -9,6 +9,7 @@ import glob
 import numpy as np
 import time
 import re
+import os
 
 # #Calculate start time 
 # start_time = time.time()
@@ -16,10 +17,12 @@ import re
 #Read from the input files 
 #path - the path where the input files are located
 #path_iqr - new path for output files
-path ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week3\\fcon1000_Beijing_zang_stats' 
-path_iqr ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week5\\fcon1000_Beijing_zang_stats_iqr' 
-
+current_dir = os.getcwd()
+path = os.path.join(current_dir,'fcon1000_Beijing_zang_stats')
+path_iqr = os.path.join(current_dir,'fcon1000_Beijing_zang_stats_text')
 allFiles = glob.glob(path + "/*.txt")
+
+
 
 #Reading each file as a dataframe, and storing it in a list
 fileslist = []
@@ -76,7 +79,7 @@ for i in range(len(unique_roi)) :
     p_new[each_roi] = df_new
 
 
-#To write all data into the files again, create new file names in the same path as source files. 
+#Create new output file names 
 allFiles_new = []
 # #TO write to the same folder as input folder. Need to delete output files every time 
 # for i in range(len(allFiles)):
