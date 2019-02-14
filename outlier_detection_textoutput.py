@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-## Outlier detection
+## Outlier detection - Text output
 
 #Import the libraries needed
 import pandas as pd
@@ -9,6 +9,7 @@ import glob
 import numpy as np
 import time
 import re
+import os
 
 # #Calculate start time 
 # start_time = time.time()
@@ -16,9 +17,11 @@ import re
 #Read from the input files 
 #path - the path where the input files are located 
 #path_iqr - path for output files
-path ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week3\\fcon1000_Beijing_zang_stats' 
-path_iqr ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week5\\fcon1000_Beijing_zang_stats_text' 
+current_dir = os.getcwd()
+path = os.path.join(current_dir,'fcon1000_Beijing_zang_stats')
+path_iqr = os.path.join(current_dir,'fcon1000_Beijing_zang_stats_text')
 allFiles = glob.glob(path + "/*.txt")
+
 
 #Reading each file as a dataframe, and storing it in a list
 fileslist = []
@@ -67,15 +70,15 @@ p_new = p
 for i in range(len(unique_roi)) :
     each_roi = unique_roi[i]
     df = p_new[each_roi]
-    Q1 = df.quantile(0.25)
-    Q3 = df.quantile(0.75)
+    Q1 = df.quantile(0.1)
+    Q3 = df.quantile(0.9)
     IQR = Q3 - Q1
 #     print(IQR)
     df_new = (df < (Q1 - 1.5 * IQR))|(df > (Q3 + 1.5 * IQR))
     p_new[each_roi] = df_new
 
 
-#To write all data into the files again, create new file names in the output path 
+#Create output files 
 allFiles_new = []
 
 for i in range(len(allFiles)):
