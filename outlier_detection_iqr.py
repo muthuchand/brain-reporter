@@ -8,13 +8,16 @@ import pandas as pd
 import glob
 import numpy as np
 import time
+import re
 
 # #Calculate start time 
 # start_time = time.time()
 
 #Read from the input files 
-#path - the path where the files are 
+#path - the path where the input files are located
+#path_iqr - new path for output files
 path ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week3\\fcon1000_Beijing_zang_stats' 
+path_iqr ='C:\\Users\\Muthulakshmi C\\Desktop\\DR\\Week5\\fcon1000_Beijing_zang_stats_iqr' 
 
 allFiles = glob.glob(path + "/*.txt")
 
@@ -75,13 +78,22 @@ for i in range(len(unique_roi)) :
 
 #To write all data into the files again, create new file names in the same path as source files. 
 allFiles_new = []
+# #TO write to the same folder as input folder. Need to delete output files every time 
+# for i in range(len(allFiles)):
+#     file = allFiles[i]
+#     fnew = file[:-4]
+#     fnew = fnew+".iqr.txt"
+#     allFiles_new.append(fnew)
+# #     print(fnew)
 
+# Write the files to a different output folder 
 for i in range(len(allFiles)):
     file = allFiles[i]
-    fnew = file[:-4]
-    fnew = fnew+".iqr.txt"
+    fnew = re.findall("(?<=_zang_stats)(.*)",file[:-4])
+    fnew = path_iqr+fnew[0]+".iqr.txt"
     allFiles_new.append(fnew)
 #     print(fnew)
+
 
 
 #Write each row of every dataframe in the panel (i.e data of each subject across all ROIs) into the file with the same name. 
